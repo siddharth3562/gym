@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Equipment</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shop/edit_equipment.css`' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Equipment</h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Name Field -->
+            <label for="name">Equipment Name:</label>
+            <input type="text" id="name" name="name" value="{{ equipment.name }}" required>
+
+            <!-- Description Field -->
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="5" required>{{ equipment.description }}</textarea>
+
+            <!-- Brand Field -->
+            <label for="brand">Brand:</label>
+            <select id="brand" name="brand" required>
+                {% for brand in brands %}
+                <option value="{{ brand.id }}" {% if equipment.brand.id == brand.id %}selected{% endif %}>
+                    {{ brand.name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <!-- Material Field -->
+            <label for="material">Material:</label>
+            <input type="text" id="material" name="material" value="{{ equipment.material }}" placeholder="e.g., Steel, Plastic">
+
+            <!-- Category Field -->
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if equipment.category.id == category.id %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <!-- Image Upload Field -->
+            <label for="img">Upload Image:</label>
+            <input type="file" id="img" name="img">
+
+            <!-- Existing Image Display -->
+            {% if equipment.img %}
+            <p>Current Image:</p>
+            <img src="{{ equipment.img.url }}" alt="Equipment Image" width="200">
+            {% endif %}
+
+            <!-- Submit Button -->
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <!-- Back Button -->
+    </div>
+</body>
+</html>

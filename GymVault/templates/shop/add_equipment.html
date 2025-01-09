@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Equipment</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shop/add_eqp.css' %}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Gym Vault</h2>
+        <a href="shop_home">Home</a>
+        <a href="add_brand">Add Brand</a>
+        <a href="s_category">Add Category</a>
+        <a href="add_e">Equipment</a>
+        <a href="add_s">Supplements</a>
+        <a href="view_pro">View supplements</a>
+        <a href="view_eqp">View equipments</a>
+        <a href="logout">Logout</a>
+    </div>
+
+    <div class="form-container">
+        <h1>Add Equipment</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="name">Equipment Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="brand">Brand:</label>
+            <select id="brand" name="brand" required>
+                {% for brand in brands %}
+                    <option value="{{ brand.id }}">{{ brand.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                {% for category in equipment_categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="material">Material:</label>
+            <input type="text" id="material" name="material">
+
+
+            <label for="img">Image:</label>
+            <input type="file" id="img" name="img" accept="image/*" required>
+
+            <button type="submit">Add Equipment</button>
+        </form>
+    </div>
+</body>
+</html>

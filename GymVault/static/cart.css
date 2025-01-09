@@ -1,0 +1,211 @@
+ /* Logo style */
+.logo {
+    background-color: #FF0000; /* Red background */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF; /* White Text */
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Adds space between logo and text */
+}
+
+/* Brand name style */
+.brand-name {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #1f1d1d; /* Dark background */
+}
+
+.navbar .nav-link {
+    color: #FFFFFF; /* White text */
+}
+
+.navbar .navbar-brand {
+    color: #FFFFFF; /* White text for the brand */
+}
+
+.navbar .navbar-toggler-icon {
+    background-color: #FFFFFF; /* White toggle icon for mobile view */
+}
+ /* Custom Styling */
+            .cart-item {
+                display: flex;
+                align-items: center;
+                padding: 15px;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+                margin-bottom: 15px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                justify-content: space-between;
+            }
+
+            .cart-item img {
+                width: 80px;  /* Fixed size for the image */
+                height: 80px; /* Fixed size for the image */
+                object-fit: cover;  /* Ensure image maintains aspect ratio */
+                margin-right: 20px;  /* Space between image and content */
+            }
+
+            .cart-item .item-details {
+                flex: 1; /* Allow item details to take available space */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .cart-item .quantity-controls {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .cart-item .quantity-controls button {
+                padding: 10px 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #f8f9fa;
+            }
+
+            .cart-item .buy-btn {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                padding: 12px 20px;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+
+.cart-item .buy-btn:hover {
+    background-color: #0056b3;
+}
+
+.cart-item .remove-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.cart-item .remove-btn:hover {
+    background-color: #c82333;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;  /* Space out the cart items */
+}
+
+.cart-item .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;  /* Add space between the quantity buttons */
+}
+
+.cart-item .quantity-controls button {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.cart-item .buy-btn, .cart-item .remove-btn {
+    margin-left: 15px; /* Add space between the Buy and Remove buttons */
+}
+
+
+
+.footer {
+    margin-top: 10vh;
+    background-color: #1f1d1d; 
+    color: #ffffff; 
+    padding: 40px 10px;
+    font-size: 14px;
+}
+
+.footer h5 {
+    color: #ff0000; /* Red for headings */
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.footer p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer ul li {
+    margin-bottom: 10px;
+}
+
+.footer ul li a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.footer ul li a:hover {
+    text-decoration: underline;
+    color: #ff0000;
+}
+
+.footer .social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.footer .social-icons a img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1); /* Makes icons white */
+}
+
+.footer .social-icons a img:hover {
+    filter: brightness(0) invert(1) sepia(1) saturate(1000%) hue-rotate(-10deg);
+}
+
+
+
+.footer input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+.footer button {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.footer button:hover {
+    background-color: #cc0000;
+}
+
+.footer .text-center {
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    margin-top: 15px;
+    font-size: 12px;
+}

@@ -1,0 +1,208 @@
+/* Logo style */
+.logo {
+    background-color: #FF0000; /* Red background */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF; /* White Text */
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Adds space between logo and text */
+}
+
+/* Brand name style */
+.brand-name {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #1f1d1d; /* Dark background */
+}
+
+.navbar .nav-link {
+    color: #FFFFFF; /* White text */
+}
+
+.navbar .navbar-brand {
+    color: #FFFFFF; /* White text for the brand */
+}
+
+.navbar .navbar-toggler-icon {
+    background-color: #FFFFFF; /* White toggle icon for mobile view */
+}
+
+.card {
+    background-color: #1f1d1d; 
+    color: #ffffff; 
+    border: none; 
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Slight lift effect */
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.3); /* Elevated shadow */
+}
+
+
+.card-img-top {
+    width: 100%;
+    height: 260px; /* Fixed height for uniformity */
+    object-fit: cover; /* Ensures the image fits well */
+    border-bottom: 1px solid #333; /* Divider between image and content */
+}
+
+
+.card-body {
+    height: 20vh;
+}
+
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff; /* White text */
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Card Text */
+.card-text {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    text-align: justify;
+    color: #cccccc; /* Lighter gray for descriptions */
+}
+
+/* Card Button */
+.btn-primary {
+    background-color: #ff0000; /* Red button */
+    border: none;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #cc0000; /* Darker red on hover */
+}
+
+/* Spacing for containers */
+.container {
+    margin-bottom: 50px;
+}
+
+/* Row gap */
+.row {
+    gap: 20px; /* Space between cards */
+}
+
+.mid_banner{
+    width: 100vw;
+}
+
+
+.mid_banner img{
+    width: 100vw;
+    object-fit: cover;
+}
+
+
+
+.footer {
+    margin-top: 10vh;
+    background-color: #1f1d1d; 
+    color: #ffffff; 
+    padding: 40px 10px;
+    font-size: 14px;
+}
+
+.footer h5 {
+    color: #ff0000; /* Red for headings */
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.footer p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer ul li {
+    margin-bottom: 10px;
+}
+
+.footer ul li a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.footer ul li a:hover {
+    text-decoration: underline;
+    color: #ff0000;
+}
+
+.footer .social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.footer .social-icons a img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1); /* Makes icons white */
+}
+
+.footer .social-icons a img:hover {
+    filter: brightness(0) invert(1) sepia(1) saturate(1000%) hue-rotate(-10deg);
+}
+
+
+
+.footer input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+.footer button {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.footer button:hover {
+    background-color: #cc0000;
+}
+
+.footer .text-center {
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    margin-top: 15px;
+    font-size: 12px;
+}

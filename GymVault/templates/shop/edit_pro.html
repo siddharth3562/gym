@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Supplement</title>
+</head>
+<body>
+    <h1>Edit Supplement: {{ supplement.name }}</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Name Field -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ supplement.name }}" required><br><br>
+
+        <!-- Brand Dropdown -->
+        <label for="brand">Brand:</label>
+        <select id="brand" name="brand" required>
+            {% for brand in brands %}
+            <option value="{{ brand.id }}" {% if brand.id == supplement.brand.id %}selected{% endif %}>
+                {{ brand.name }}
+            </option>
+            {% endfor %}
+        </select><br><br>
+
+        <!-- Description Field -->
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50" required>{{ supplement.description }}</textarea><br><br>
+
+        <!-- Category Dropdown -->
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            {% for category in categories %}
+            <option value="{{ category.id }}" {% if category.id == supplement.category.id %}selected{% endif %}>
+                {{ category.name }}
+            </option>
+            {% endfor %}
+        </select><br><br>
+
+        <!-- Flavor Field -->
+        <label for="flavor">Flavor:</label>
+        <input type="text" id="flavor" name="flavor" value="{{ supplement.flavor }}"><br><br>
+
+        <!-- Image Upload Field -->
+        <label for="img">Image:</label>
+        <img src="{{ supplement.img.url }}" alt="Product Image" style="width:200px;">
+
+        <input type="file" id="img" name="img"><br><br>
+
+        <!-- Submit Button -->
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <!-- Back Link -->
+    <a href="">Back to Supplement List</a>
+</body>
+</html>

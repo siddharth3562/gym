@@ -1,0 +1,83 @@
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F4F4F4; /* Light Gray */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container */
+.form-container {
+    background: linear-gradient(145deg, #FFFFFF, #F4F4F4); /* Subtle gradient */
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+/* Header */
+.form-container h2 {
+    color: #333333; /* Dark Gray */
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.form-container p.subtitle {
+    color: #555555; /* Medium Gray */
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+/* Input Fields */
+.form-container input {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    background-color: #F4F4F4;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: #333333;
+}
+
+/* Button */
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #FF0000; /* Red */
+    color: #FFFFFF; /* White */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #CC0000; /* Darker Red */
+}
+
+/* Alert Messages */
+.alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .form-container {
+        width: 90%;
+    }
+}
