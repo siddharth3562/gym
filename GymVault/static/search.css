@@ -37,91 +37,115 @@
     background-color: #FFFFFF; /* White toggle icon for mobile view */
 }
 
+/* Search results container */
+.search-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* Search heading */
+h2 {
+    text-align: center;
+    color: #1f1d1d;
+    margin: 2rem 0;
+    font-weight: bold;
+}
+
+/* Card styling */
 .card {
-    background-color: #1f1d1d; 
-    color: #ffffff; 
-    border: none; 
+    background: #ffffff;
     border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #e0e0e0;
 }
 
 .card:hover {
-    transform: translateY(-5px); /* Slight lift effect */
-    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.3); /* Elevated shadow */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Card image container */
+.card-img {
+    position: relative;
+    padding-top: 75%; /* 4:3 aspect ratio */
+    overflow: hidden;
+    background: #f5f5f5;
+}
 
-.card-img-top {
+.card-img img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 260px; /* Fixed height for uniformity */
-    object-fit: cover; /* Ensures the image fits well */
-    border-bottom: 1px solid #333; /* Divider between image and content */
-}
-
-
-
-.card-body {
-    height: 20vh;
-}
-
-
-.card-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffffff; /* White text */
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-/* Card Text */
-.card-text {
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    text-align: justify;
-    color: #cccccc; /* Lighter gray for descriptions */
-}
-
-/* Card Button */
-.btn-primary {
-    background-color: #ff0000; /* Red button */
-    border: none;
-    color: #ffffff;
-    padding: 10px 20px;
-    border-radius: 4px;
-    display: block;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #cc0000; /* Darker red on hover */
-}
-
-/* Spacing for containers */
-.container {
-    margin-bottom: 50px;
-}
-
-/* Row gap */
-.row {
-    gap: 20px; /* Space between cards */
-}
-
-.mid_banner{
-    width: 100%;
-}
-
-
-.mid_banner img{
-    width: 100%;
+    height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
+.card:hover .card-img img {
+    transform: scale(1.05);
+}
+
+/* Card content */
+.card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.card-content h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #1f1d1d;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.card-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* No results message */
+.search-results + p {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin: 3rem 0;
+    padding: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search-results {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .card-content {
+        padding: 1rem;
+    }
+
+    .card-content h3 {
+        font-size: 1.1rem;
+    }
+}
 
 
 .footer {

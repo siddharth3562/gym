@@ -1,5 +1,5 @@
-/* Logo style */
-.logo {
+ /* Logo style */
+ .logo {
     background-color: #FF0000; /* Red background */
     width: 40px;
     height: 40px;
@@ -37,91 +37,92 @@
     background-color: #FFFFFF; /* White toggle icon for mobile view */
 }
 
-.card {
-    background-color: #1f1d1d; 
-    color: #ffffff; 
-    border: none; 
+.buy-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
     border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.card:hover {
-    transform: translateY(-5px); /* Slight lift effect */
-    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.3); /* Elevated shadow */
-}
-
-
-.card-img-top {
-    width: 100%;
-    height: 260px; /* Fixed height for uniformity */
-    object-fit: cover; /* Ensures the image fits well */
-    border-bottom: 1px solid #333; /* Divider between image and content */
-}
-
-
-
-.card-body {
-    height: 20vh;
-}
-
-
-.card-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffffff; /* White text */
-    margin-bottom: 10px;
+h2 {
     text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
-/* Card Text */
-.card-text {
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    text-align: justify;
-    color: #cccccc; /* Lighter gray for descriptions */
+.product-details {
+    margin-bottom: 20px;
 }
 
-/* Card Button */
-.btn-primary {
-    background-color: #ff0000; /* Red button */
-    border: none;
-    color: #ffffff;
-    padding: 10px 20px;
-    border-radius: 4px;
-    display: block;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+.product-details p {
+    font-size: 16px;
+    line-height: 1.6;
 }
 
-.btn-primary:hover {
-    background-color: #cc0000; /* Darker red on hover */
-}
-
-/* Spacing for containers */
-.container {
-    margin-bottom: 50px;
-}
-
-/* Row gap */
-.row {
-    gap: 20px; /* Space between cards */
-}
-
-.mid_banner{
+.product-img {
     width: 100%;
-}
-
-
-.mid_banner img{
-    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 8px;
     object-fit: cover;
 }
 
+
+.buy-form label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.buy-form textarea,
+.buy-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.buy-form textarea {
+    resize: vertical;
+}
+
+.buy-form button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buy-form button:hover {
+    background-color: #218838;
+}
+
+.buy-form button:active {
+    background-color: #1e7e34;
+}
+
+@media (max-width: 767px) {
+    .buy-container {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    .buy-form button {
+        font-size: 14px;
+    }
+}
 
 
 .footer {

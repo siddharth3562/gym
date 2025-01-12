@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Product</title>
+    <title>Document</title>
     {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'buy.css' %}">
+    <link rel="stylesheet" href="{% static 'history.css' %}">
 </head>
-
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
@@ -52,6 +50,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="/contact">Contact Us</a>
               </li>
+
               <li class="nav-item">
                 <a class="nav-link" href="/order">Order History</a>
               </li>
@@ -78,96 +77,47 @@
           </div>
         </div>
       </nav>
+    <div class="container">
+        <h2>Order History</h2>
 
-    <div class="container my-5">
-        <div class="row g-5 align-items-start">
-            <!-- Image on the Left -->
-            <div class="col-lg-6">
-                <div class="product-image-container">
-                    {% if stock.supplement %}
-                        <img src="{{ stock.supplement.img.url }}" class="img-fluid rounded shadow" alt="{{ stock.supplement.name }}">
-                    {% elif stock.equipment %}
-                        <img src="{{ stock.equipment.img.url }}" class="img-fluid rounded shadow" alt="{{ stock.equipment.name }}">
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Details on the Right -->
-            <div class="col-lg-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <!-- Brand Badge -->
-                        <div class="mb-3">
-                            <span class="badge bg-secondary text-white">
-                                {% if stock.supplement %}
-                                    {{ stock.supplement.brand.name }}
-                                {% elif stock.equipment %}
-                                    {{ stock.equipment.brand.name }}
-                                {% endif %}
-                            </span>
-                            {% if stock.supplement and stock.supplement.flavor %}
-                                <span class="badge bg-info ms-2">{{ stock.supplement.flavor }}</span>
-                            {% endif %}
-                            {% if stock.equipment and stock.equipment.material %}
-                                <span class="badge bg-info ms-2">{{ stock.equipment.material }}</span>
-                            {% endif %}
-                        </div>
-
-
-                        <!-- Weight Selection -->
-                        <h2>Choose Weight:</h2>
-
-                        <!-- Form for Weight Selection -->
-                        <form method="GET">
-                            <select name="weight" id="weight" onchange="this.form.submit()" class="form-select">
-                                <option value="">Select weight</option>
-                                {% for stock in stock_entries %}
-                                    <option value="{{ stock.id }}" {% if stock.id|stringformat:"s" == selected_weight_id %}selected{% endif %}>
-                                        {{ stock.weight }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </form>
-                        
-                        <!-- Display Weight Details -->
-                        {% if weight_details %}
-                            <div class="mt-4">
-                                <p><strong>Weight:</strong> {{ weight_details.weight }}</p>
-                                <p style="text-decoration: line-through;"><strong>Price:</strong> ₹{{ weight_details.price }}</p>
-                                {% if weight_details.offer_price %}
-                                    <p><strong>Offer Price:</strong> ₹{{ weight_details.offer_price }}</p>
-                                {% endif %}
-                            </div>
-                        {% else %}
-                            <div class="mt-4">
-                                <p><strong>Weight:</strong> {{ stock.weight }}</p>
-                                <p style="text-decoration: line-through;"><strong>Price:</strong> ₹{{ stock.price }}</p>
-                                {% if stock.offer_price %}
-                                    <p><strong>Offer Price:</strong> ₹{{ stock.offer_price }}</p>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                        
-                        
-                        
-
-                        <!-- Action Buttons -->
-                        <div class="d-grid gap-2">
-                                {% csrf_token %}
-                                <div class="d-flex gap-2">
-                                    <a href="/add_cart/{{ stock.id }}/" class="btn btn-outline-primary flex-grow-1 py-3">
-                                        <i class="bi bi-cart-plus"></i> Add to Cart
-                                    </a>
-                                    <button type="submit" class="btn btn-primary flex-grow-1 py-3">
-                                        <i class="bi bi-lightning"></i> Buy Now
-                                    </button>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% if orders %}
+        <table class="order-table" >
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Date of Purchase</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><img src="{% if order.product.supplement %}
+                        {{ order.product.supplement.img.url }}
+                        {% elif order.product.equipment %}
+                        {{ order.product.equipment.img.url }}
+                    {% endif %}" alt="" style="width: 100px;"></td>
+                    <td>{% if order.product.supplement %}
+                        {{ order.product.supplement.name }}
+                        {% elif order.product.equipment %}
+                        {{ order.product.equipment.name }}
+                    {% endif %}</td>
+                    <td>{{ order.qty }}</td>
+                    <td>₹{{ order.price }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>{{ order.address }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>You have no past orders.</p>
+        {% endif %}
     </div>
+
 
     <footer class="footer mt-auto py-4">
         <div class="container">
@@ -218,9 +168,5 @@
         </div>
     </footer>
 
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

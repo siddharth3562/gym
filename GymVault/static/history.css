@@ -1,0 +1,221 @@
+html {
+    height: 100%;
+}
+/* Logo style */
+.logo {
+    background-color: #FF0000; /* Red background */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF; /* White Text */
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Adds space between logo and text */
+}
+
+/* Brand name style */
+.brand-name {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #1f1d1d; /* Dark background */
+}
+
+.navbar .nav-link {
+    color: #FFFFFF; /* White text */
+}
+
+.navbar .navbar-brand {
+    color: #FFFFFF; /* White text for the brand */
+}
+
+.navbar .navbar-toggler-icon {
+    background-color: #FFFFFF; /* White toggle icon for mobile view */
+}
+
+/* Footer */
+.footer {
+    margin-top: auto; /* Push footer to bottom */
+    background-color: #1f1d1d;
+    color: #ffffff;
+    padding: 40px 10px;
+    font-size: 14px;
+    position: relative; /* Change from fixed to relative */
+    width: 100%;
+}
+
+.footer h5 {
+    color: #ff0000; /* Red for headings */
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.footer p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer ul li {
+    margin-bottom: 10px;
+}
+
+.footer ul li a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.footer ul li a:hover {
+    text-decoration: underline;
+    color: #ff0000;
+}
+
+.footer .social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.footer .social-icons a img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1); /* Makes icons white */
+}
+
+.footer .social-icons a img:hover {
+    filter: brightness(0) invert(1) sepia(1) saturate(1000%) hue-rotate(-10deg);
+}
+
+.footer input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+.footer button {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.footer button:hover {
+    background-color: #cc0000;
+}
+
+.footer .text-center {
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+/* Container spacing */
+.container h2 {
+    color: #333;
+    margin: 40px 0 30px;
+    font-weight: 600;
+}
+
+/* Override Bootstrap's default table styles */
+table.order-table {
+    width: 100%;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    border: none !important;
+}
+
+/* Reset Bootstrap's border styles */
+table.order-table thead th,
+table.order-table tbody td {
+    border: none !important;
+}
+
+/* Table header */
+table.order-table thead th {
+    background-color: #1f1d1d !important;
+    padding: 15px 20px !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    text-align: left !important;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    vertical-align: middle !important;
+}
+
+/* Table body */
+table.order-table tbody td {
+    padding: 15px 20px !important;
+    color: #333 !important;
+    border-bottom: 1px solid #eee !important;
+    font-size: 14px;
+    background-color: #ffffff;
+    vertical-align: middle !important;
+}
+
+/* Remove border from last row */
+table.order-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Hover effect */
+table.order-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Price column */
+table.order-table tbody td:nth-child(3) {
+    font-weight: 600;
+    color: #ff0000 !important;
+}
+
+/* Date column */
+table.order-table tbody td:nth-child(4) {
+    color: #666 !important;
+}
+
+/* Empty state message */
+.container > p {
+    text-align: center;
+    color: #666;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    table.order-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    table.order-table th,
+    table.order-table td {
+        padding: 12px 15px !important;
+        font-size: 13px;
+    }
+}

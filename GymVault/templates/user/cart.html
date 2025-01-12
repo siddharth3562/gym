@@ -51,6 +51,9 @@
                   <li class="nav-item">
                     <a class="nav-link" href="/contact">Contact Us</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/order">Order History</a>
+                  </li>
                   
                   <!-- Search Bar -->
                   <li class="nav-item">
@@ -75,7 +78,7 @@
             </div>
           </nav>
 
-        <div class="container my-5">
+        <div class="container my-5" style="height: 100%;">
             <h2>Your Cart</h2>
             {% if cart_items %}
             <div class="cart-items">
@@ -110,10 +113,9 @@
                     </div>
 
                     <!-- Buy Button -->
-                    <form action="" method="GET">
-                        {% csrf_token %}
-                        <button type="submit" class="buy-btn">Buy Now</button>
-                    </form>
+                    
+                    <a href="/buy_product/{{item.stock.id}}" class="buy-btn">Buy Now</a>
+                   
 
                     <!-- Remove Button (Optional) -->
                     <form action="" method="POST" style="display:inline;">
@@ -127,7 +129,7 @@
             <p>Your cart is empty.</p>
             {% endif %}
         </div>
-        <footer class="footer mt-auto py-4">
+        <footer class="footer mt-auto py-4 footer-bottom">
             <div class="container">
                 <div class="row">
                     <!-- About Us -->

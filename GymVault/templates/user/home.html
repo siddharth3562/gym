@@ -52,6 +52,9 @@
           <li class="nav-item">
             <a class="nav-link" href="/contact">Contact Us</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/order">Order History</a>
+          </li>
           
           <!-- Search Bar -->
           <li class="nav-item">
@@ -114,19 +117,21 @@
       <div class="container my-5">
         <h2 class="text-dark mb-5">Latest Supplements</h2>
         <div class="row">
-            {% for item in supplements_with_stock %}
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="{{ item.supplement.img.url }}" class="card-img-top" alt="{{ item.supplement.name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ item.supplement.name }}</h5>
-                            <p class="card-text">Price: ${{ item.stock.price }}</p>
-                            <a href="#" class="btn btn-primary">View</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+          {% for item in supplements_with_stock %}
+              <div class="col-md-3">
+                  <a href="buy_p/{{ item.stock.id }}" style="text-decoration: none;">
+                      <div class="card h-100">
+                          <img src="{{ item.supplement.img.url }}" class="card-img-top" alt="{{ item.supplement.name }}">
+                          <div class="card-body d-flex flex-column">
+                              <h5 class="card-title">{{ item.supplement.name }}</h5>
+                              <p class="card-text">Price: ${{ item.stock.price }}</p>
+                              <a href="#" class="btn btn-primary mt-auto">View</a>
+                          </div>
+                      </div>
+                  </a>
+              </div>
+          {% endfor %}
+      </div>
     </div>
 
     <div class="mid_banner">

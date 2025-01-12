@@ -6,6 +6,7 @@ from .models import *
 from django.shortcuts import render, get_object_or_404, redirect
 import os
 from django.conf import settings
+from django.utils.timezone import now
 
 
 # Create your views here.
@@ -176,7 +177,7 @@ def buy_product(request, product_id):
         return redirect(e_login)
     
 def add_to_cart(request, product_id):
-    # Fetch the stock entry for the product (either supplement or equipment)
+    # Fetch the stock entry for the product
     stock = Stock.objects.filter(id=product_id).first()
 
     if stock is None:
@@ -186,33 +187,51 @@ def add_to_cart(request, product_id):
     existing_cart_item = Cart.objects.filter(user=request.user, stock=stock).first()
 
     if existing_cart_item:
-        # If the item is already in the cart, update the quantity
+        # If the item is already in the cart, update the quantity and total price
         existing_cart_item.qty += 1
+        existing_cart_item.total_price = existing_cart_item.qty * stock.offer_price  # Update total price
         existing_cart_item.save()
     else:
-        # Otherwise, create a new cart item
-        Cart.objects.create(user=request.user, stock=stock, qty=1)
+        # Otherwise, create a new cart item with total price
+        total_price = stock.offer_price * 1  # Initial quantity is 1
+        Cart.objects.create(user=request.user, stock=stock, qty=1, total_price=total_price)
 
-    return redirect(cart)  
+    return redirect(cart)  # Redirect to the cart view
+
 
 def qty_in(req, cid):
-    if 'user' in req.session:  # Check if the user is in session
-        username = req.session['user']  # Retrieve the username from the session
-        data = get_object_or_404(Cart, pk=cid, user__username=username)  # Filter by username
+    if 'user' in req.session:
+        username = req.session['user']
+        data = get_object_or_404(Cart, pk=cid, user__username=username)
+        
+        # Increment the quantity
         data.qty += 1
+        
+        # Update the total price
+        data.total_price = data.qty * data.stock.offer_price
+        
+        # Save the changes
         data.save()
         return redirect(cart)
     else:
         return redirect(e_login)
 
 def qty_dec(req, cid):
-    if 'user' in req.session:  # Check if the user is in session
-        username = req.session['user']  # Retrieve the username from the session
-        data = get_object_or_404(Cart, pk=cid, user__username=username)  # Filter by username
+    if 'user' in req.session:
+        username = req.session['user']
+        data = get_object_or_404(Cart, pk=cid, user__username=username)
+        
+        # Decrement the quantity
         data.qty -= 1
+        
         if data.qty == 0:
+            # Remove the item from the cart if qty reaches zero
             data.delete()
         else:
+            # Update the total price
+            data.total_price = data.qty * data.stock.offer_price
+            
+            # Save the changes
             data.save()
         return redirect(cart)
     else:
@@ -224,6 +243,111 @@ def cart(request):
         return render(request, 'user/cart.html', {'cart_items': cart_items})
     else: 
         return redirect(e_login)  
+    
+
+
+def place_order(request, stock_id):
+    stock_item = get_object_or_404(Stock, id=stock_id)
+    
+    # Get the cart item for this user and stock
+    cart_item = Cart.objects.filter(user=request.user, stock=stock_item).first()
+    
+    if not cart_item:
+        messages.error(request, "Product is not in your cart.")
+        return redirect('cart')
+
+    if request.method == 'POST':
+        # Use quantity and total price from the cart
+        qty = cart_item.qty
+        total_price = cart_item.qty * stock_item.price
+
+        address = request.POST.get('address')
+        phone_number = request.POST.get('phone_number')
+
+        if qty > stock_item.stock:
+            messages.error(request, "Insufficient stock available.")
+            return redirect('cart')
+
+        # Create a new Buy record
+        Buy.objects.create(
+            product=stock_item,
+            user=request.user,
+            qty=qty,
+            price=total_price,
+            date=now(),
+            address=address,
+            phone_number=phone_number
+        )
+
+        # Reduce stock
+        stock_item.stock -= qty
+        stock_item.save()
+
+        # Remove the cart item after successful purchase
+        cart_item.delete()
+
+        messages.success(request, "Purchase successful!")
+        return redirect(order_history)
+
+    return render(request, 'user/buy_product.html', {'stock_item': stock_item, 'cart_item': cart_item})
+
+def order_history(request):
+    # Get all Buy records for the logged-in user
+    orders = Buy.objects.filter(user=request.user).order_by('-date')
+
+    return render(request, 'user/history.html', {'orders': orders})
+
+
+def contact_view(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        if name and email and message:
+            # Save the contact message to the database
+            Contact.objects.create(name=name, email=email, message=message)
+            messages.success(request, 'Your message has been sent successfully!')
+            return redirect(contact_view)
+        else:
+            messages.error(request, 'Please fill in all fields.')
+
+    return render(request, 'user/contact.html')
+
+def search_view(request):
+    query = request.GET.get('q')
+    results = []
+    
+    if query:
+        # Get supplements and equipment that match the query
+        supplements = Supplement.objects.filter(name__icontains=query)
+        equipment = Equipment.objects.filter(name__icontains=query)
+        
+        # Get stock information for display, but keep product IDs for links
+        results = []
+        for supplement in supplements:
+            # Get the first stock entry for this supplement
+            stock = Stock.objects.filter(supplement=supplement).first()
+            if stock:
+                results.append({
+                    'id': stock.id,  # Changed: Use stock.id instead of supplement.id
+                    'product': supplement,
+                    'stock': stock,
+                    'type': 'supplement'
+                })
+                
+        for equipment in equipment:
+            # Get the first stock entry for this equipment
+            stock = Stock.objects.filter(equipment=equipment).first()
+            if stock:
+                results.append({
+                    'id': stock.id,  # Changed: Use stock.id instead of equipment.id
+                    'product': equipment,
+                    'stock': stock,
+                    'type': 'equipment'
+                })
+
+    return render(request, 'user/search_results.html', {'query': query, 'results': results})
 
 
 # admin---------------------------

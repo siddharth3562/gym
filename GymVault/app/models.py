@@ -44,10 +44,19 @@ class Cart(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)  # Link to the Stock model
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link to the User
     qty = models.PositiveIntegerField()
+    total_price = models.IntegerField(null=True)
 
 class Buy(models.Model):
-    product=models.ForeignKey(Stock,on_delete=models.CASCADE)
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    qty=models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)  
-    date=models.DateField(auto_now_add=True)
+    product = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    qty = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField(auto_now_add=True)
+    address = models.TextField()  
+    phone_number = models.CharField(max_length=15)
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    submitted_at = models.DateTimeField(auto_now_add=True)

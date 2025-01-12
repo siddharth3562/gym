@@ -1,5 +1,10 @@
-/* Logo style */
-.logo {
+body, h1, p, ul, li, a, input, textarea, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ /* Logo style */
+ .logo {
     background-color: #FF0000; /* Red background */
     width: 40px;
     height: 40px;
@@ -37,89 +42,58 @@
     background-color: #FFFFFF; /* White toggle icon for mobile view */
 }
 
-.card {
-    background-color: #1f1d1d; 
-    color: #ffffff; 
-    border: none; 
+.contact-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 20px;
     border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.card:hover {
-    transform: translateY(-5px); /* Slight lift effect */
-    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.3); /* Elevated shadow */
-}
-
-
-.card-img-top {
-    width: 100%;
-    height: 260px; /* Fixed height for uniformity */
-    object-fit: cover; /* Ensures the image fits well */
-    border-bottom: 1px solid #333; /* Divider between image and content */
-}
-
-
-
-.card-body {
-    height: 20vh;
-}
-
-
-.card-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffffff; /* White text */
-    margin-bottom: 10px;
+.contact-container h1 {
     text-align: center;
+    color: #ff0000;
+    margin-bottom: 20px;
 }
 
-/* Card Text */
-.card-text {
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    text-align: justify;
-    color: #cccccc; /* Lighter gray for descriptions */
+.contact-container p {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #555;
 }
 
-/* Card Button */
-.btn-primary {
-    background-color: #ff0000; /* Red button */
-    border: none;
-    color: #ffffff;
-    padding: 10px 20px;
+.contact-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-container label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.contact-container input,
+.contact-container textarea {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    display: block;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    font-size: 16px;
 }
 
-.btn-primary:hover {
-    background-color: #cc0000; /* Darker red on hover */
+.contact-container button {
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-/* Spacing for containers */
-.container {
-    margin-bottom: 50px;
-}
-
-/* Row gap */
-.row {
-    gap: 20px; /* Space between cards */
-}
-
-.mid_banner{
-    width: 100%;
-}
-
-
-.mid_banner img{
-    width: 100%;
-    object-fit: cover;
+.contact-container button:hover {
+    background-color: #cc0000;
 }
 
 

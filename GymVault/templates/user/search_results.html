@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Product</title>
+    <title>Document</title>
     {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'buy.css' %}">
+    <link rel="stylesheet" href="{% static 'search.css' %}">
 </head>
-
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
@@ -78,96 +76,39 @@
           </div>
         </div>
       </nav>
+      <h2>Search Results for "{{ query }}"</h2>
 
-    <div class="container my-5">
-        <div class="row g-5 align-items-start">
-            <!-- Image on the Left -->
-            <div class="col-lg-6">
-                <div class="product-image-container">
-                    {% if stock.supplement %}
-                        <img src="{{ stock.supplement.img.url }}" class="img-fluid rounded shadow" alt="{{ stock.supplement.name }}">
-                    {% elif stock.equipment %}
-                        <img src="{{ stock.equipment.img.url }}" class="img-fluid rounded shadow" alt="{{ stock.equipment.name }}">
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Details on the Right -->
-            <div class="col-lg-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <!-- Brand Badge -->
-                        <div class="mb-3">
-                            <span class="badge bg-secondary text-white">
-                                {% if stock.supplement %}
-                                    {{ stock.supplement.brand.name }}
-                                {% elif stock.equipment %}
-                                    {{ stock.equipment.brand.name }}
-                                {% endif %}
-                            </span>
-                            {% if stock.supplement and stock.supplement.flavor %}
-                                <span class="badge bg-info ms-2">{{ stock.supplement.flavor }}</span>
-                            {% endif %}
-                            {% if stock.equipment and stock.equipment.material %}
-                                <span class="badge bg-info ms-2">{{ stock.equipment.material }}</span>
-                            {% endif %}
-                        </div>
-
-
-                        <!-- Weight Selection -->
-                        <h2>Choose Weight:</h2>
-
-                        <!-- Form for Weight Selection -->
-                        <form method="GET">
-                            <select name="weight" id="weight" onchange="this.form.submit()" class="form-select">
-                                <option value="">Select weight</option>
-                                {% for stock in stock_entries %}
-                                    <option value="{{ stock.id }}" {% if stock.id|stringformat:"s" == selected_weight_id %}selected{% endif %}>
-                                        {{ stock.weight }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </form>
-                        
-                        <!-- Display Weight Details -->
-                        {% if weight_details %}
-                            <div class="mt-4">
-                                <p><strong>Weight:</strong> {{ weight_details.weight }}</p>
-                                <p style="text-decoration: line-through;"><strong>Price:</strong> ₹{{ weight_details.price }}</p>
-                                {% if weight_details.offer_price %}
-                                    <p><strong>Offer Price:</strong> ₹{{ weight_details.offer_price }}</p>
-                                {% endif %}
-                            </div>
-                        {% else %}
-                            <div class="mt-4">
-                                <p><strong>Weight:</strong> {{ stock.weight }}</p>
-                                <p style="text-decoration: line-through;"><strong>Price:</strong> ₹{{ stock.price }}</p>
-                                {% if stock.offer_price %}
-                                    <p><strong>Offer Price:</strong> ₹{{ stock.offer_price }}</p>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                        
-                        
-                        
-
-                        <!-- Action Buttons -->
-                        <div class="d-grid gap-2">
-                                {% csrf_token %}
-                                <div class="d-flex gap-2">
-                                    <a href="/add_cart/{{ stock.id }}/" class="btn btn-outline-primary flex-grow-1 py-3">
-                                        <i class="bi bi-cart-plus"></i> Add to Cart
-                                    </a>
-                                    <button type="submit" class="btn btn-primary flex-grow-1 py-3">
-                                        <i class="bi bi-lightning"></i> Buy Now
-                                    </button>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      {% if results %}
+      <div class="search-results">
+          {% for result in results %}
+              <a href="/buy_p/{{result.id}}" class="card">
+                  <div class="card-img">
+                      {% if result.product.img %}
+                          <img src="{{ result.product.img.url }}" alt="{{ result.product.name }}">
+                      {% else %}
+                          <img src="{% static 'default-product.jpg' %}" alt="No Image">
+                      {% endif %}
+                  </div>
+                  <div class="card-content">
+                      <h3>{{ result.product.name }}</h3>
+                      <p>{{ result.product.description|truncatewords:20 }}</p>
+                      <p class="price">
+                          {% if result.stock.offer_price %}
+                              <span class="offer-price">${{ result.stock.offer_price }}</span>
+                          {% else %}
+                              <span>${{ result.stock.price }}</span>
+                          {% endif %}
+                      </p>
+                      {% if result.stock.weight %}
+                          <p class="weight">{{ result.stock.weight }}</p>
+                      {% endif %}
+                  </div>
+              </a>
+          {% endfor %}
+      </div>
+  {% else %}
+      <p>No products found.</p>
+  {% endif %}
 
     <footer class="footer mt-auto py-4">
         <div class="container">
@@ -217,10 +158,8 @@
             </div>
         </div>
     </footer>
-
-
-    <!-- Bootstrap JS -->
+  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   
 </body>
-
 </html>
