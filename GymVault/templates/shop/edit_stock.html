@@ -4,6 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Stock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #007bff;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stock-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .stock-item:last-child {
+            border-bottom: none;
+        }
+
+        .stock-item p {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                padding: 15px;
+            }
+
+            input[type="number"], input[type="text"] {
+                font-size: 13px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Edit Stock Levels</h1>
@@ -12,18 +92,21 @@
         {% csrf_token %}
         {% for stock in stocks %}
             <div class="stock-item">
-                <p>Stock ID: {{ stock.id }}</p>
-                <p>Stock: <input type="number" name="stock_{{ stock.id }}" value="{{ stock.stock }}" /></p>
-                <p>Price: <input type="number" name="price_{{ stock.id }}" value="{{ stock.price }}" /></p>
-                <p>Offer Price: <input type="number" name="offer_price_{{ stock.id }}" value="{{ stock.offer_price }}" /></p>
-                <p>Weight: <input type="text" name="weight_{{ stock.id }}" value="{{ stock.weight }}" /></p>
+                <p><strong>Stock ID:</strong> {{ stock.id }}</p>
+                <label for="stock_{{ stock.id }}">Stock:</label>
+                <input type="number" name="stock_{{ stock.id }}" id="stock_{{ stock.id }}" value="{{ stock.stock }}" />
+                
+                <label for="price_{{ stock.id }}">Price:</label>
+                <input type="number" name="price_{{ stock.id }}" id="price_{{ stock.id }}" value="{{ stock.price }}" />
+                
+                <label for="offer_price_{{ stock.id }}">Offer Price:</label>
+                <input type="number" name="offer_price_{{ stock.id }}" id="offer_price_{{ stock.id }}" value="{{ stock.offer_price }}" />
+                
+                <label for="weight_{{ stock.id }}">Weight:</label>
+                <input type="text" name="weight_{{ stock.id }}" id="weight_{{ stock.id }}" value="{{ stock.weight }}" />
             </div>
         {% endfor %}
         <button type="submit">Edit All Stocks</button>
     </form>
-    
-    
-        
-
 </body>
 </html>

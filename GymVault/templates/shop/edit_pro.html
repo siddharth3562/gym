@@ -4,6 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Supplement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        select,
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        img {
+            display: block;
+            margin: 10px auto;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <h1>Edit Supplement: {{ supplement.name }}</h1>
@@ -13,7 +98,7 @@
 
         <!-- Name Field -->
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="{{ supplement.name }}" required><br><br>
+        <input type="text" id="name" name="name" value="{{ supplement.name }}" required>
 
         <!-- Brand Dropdown -->
         <label for="brand">Brand:</label>
@@ -23,11 +108,11 @@
                 {{ brand.name }}
             </option>
             {% endfor %}
-        </select><br><br>
+        </select>
 
         <!-- Description Field -->
-        <label for="description">Description:</label><br>
-        <textarea id="description" name="description" rows="4" cols="50" required>{{ supplement.description }}</textarea><br><br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" cols="50" required>{{ supplement.description }}</textarea>
 
         <!-- Category Dropdown -->
         <label for="category">Category:</label>
@@ -37,23 +122,21 @@
                 {{ category.name }}
             </option>
             {% endfor %}
-        </select><br><br>
+        </select>
 
         <!-- Flavor Field -->
         <label for="flavor">Flavor:</label>
-        <input type="text" id="flavor" name="flavor" value="{{ supplement.flavor }}"><br><br>
+        <input type="text" id="flavor" name="flavor" value="{{ supplement.flavor }}">
 
         <!-- Image Upload Field -->
         <label for="img">Image:</label>
-        <img src="{{ supplement.img.url }}" alt="Product Image" style="width:200px;">
-
-        <input type="file" id="img" name="img"><br><br>
+        <img src="{{ supplement.img.url }}" alt="Product Image">
+        <input type="file" id="img" name="img">
 
         <!-- Submit Button -->
         <button type="submit">Save Changes</button>
     </form>
 
     <!-- Back Link -->
-    <a href="">Back to Supplement List</a>
 </body>
 </html>

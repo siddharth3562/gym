@@ -44,7 +44,6 @@
               <li class="nav-item">
                 <a class="nav-link" href="../cart">
                   My Cart
-                  <span class="badge bg-danger" id="cart-count">0</span> <!-- Cart count -->
                 </a>
               </li>
               
@@ -113,53 +112,45 @@
         {% endfor %}
     </div>
 </div>
+
 <footer class="footer mt-auto py-4">
-    <div class="container">
-        <div class="row">
-            <!-- About Us -->
-            <div class="col-lg-2 col-md-3 col-sm-6">
-                <h5>About Us</h5>
-                <p>Gym Vault offers the best supplements, equipment, and accessories to help you achieve your fitness goals. Premium quality, every time.</p>
-            </div>
+  <div class="container">
+      <div class="row footer-content justify-content-between">
+          <!-- About Us -->
+          <div class="col-lg-3 col-md-3 mb-4">
+              <h5>About Us</h5>
+              <p>Gym Vault offers the best supplements, equipment, and accessories to help you achieve your fitness goals. Premium quality, every time.</p>
+          </div>
 
-            <!-- Quick Links -->
-            <div class="col-lg-3 col-md-3 col-sm-6 ">
-                <h5>Quick Links</h5>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/category/supplements">Supplements</a></li>
-                    <li><a href="/category/equipment">Equipment</a></li>
-                    <li><a href="/contact">Contact Us</a></li>
-                </ul>
-            </div>
+          <!-- Quick Links -->
+          <div class="col-lg-3 col-md-3 mb-4">
+              <h5>Quick Links</h5>
+              <ul>
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/category/supplements">Supplements</a></li>
+                  <li><a href="/category/equipment">Equipment</a></li>
+                  <li><a href="/contact">Contact Us</a></li>
+              </ul>
+          </div>
 
-            <!-- Social Media -->
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <h5>Follow Us</h5>
-                <div class="social-icons">
-                    <a href="#"><img src="{% static 'img/i1.png' %}"></a>
-                    <a href="#"><img src="{% static 'img/i2.png' %}" alt="Instagram"></a>
-                    <a href="#"><img src="{% static 'img/it.png' %}" alt="Twitter"></a>
-                    <a href="#"><img src="{% static 'img/il.png' %}" alt="LinkedIn"></a>
-                </div>
-            </div>
-
-            <!-- Newsletter -->
-            <div class="news col-lg-3 col-md-3 col-sm-6">
-                <h5>Newsletter</h5>
-                <p>Sign up to stay updated on the latest deals and products.</p>
-                <form action="/subscribe" method="POST">
-                    <input type="email" name="email" placeholder="Enter your email" required>
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col text-center">
-                <p>&copy; 2024 Gym Vault. All Rights Reserved.</p>
-            </div>
-        </div>
-    </div>
+          <!-- Social Media -->
+          <div class="col-lg-3 col-md-3 mb-4">
+              <h5>Follow Us</h5>
+              <div class="social-icons">
+                  <a href="#"><img src="{% static 'img/i1.png' %}"></a>
+                  <a href="#"><img src="{% static 'img/i2.png' %}" alt="Instagram"></a>
+                  <a href="#"><img src="{% static 'img/it.png' %}" alt="Twitter"></a>
+                  <a href="#"><img src="{% static 'img/il.png' %}" alt="LinkedIn"></a>
+              </div>
+          </div>
+      </div>
+      
+      <div class="row mt-3">
+          <div class="col text-center">
+              <p>&copy; 2024 Gym Vault. All Rights Reserved.</p>
+          </div>
+      </div>
+  </div>
 </footer>
 
 

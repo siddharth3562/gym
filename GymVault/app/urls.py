@@ -32,8 +32,10 @@ urlpatterns=[
     path('qty_in/<cid>',views.qty_in),
     path('qty_dec/<cid>',views.qty_dec),
     path('buy_product/<int:stock_id>/',views.place_order),
+    path('buy_all/', views.place_order),
     path('order/',views.order_history),
     path('contact/',views.contact_view),
     path('search/',views.search_view),
+    path('order_admin/',views.admin_order_history),
 
 ]

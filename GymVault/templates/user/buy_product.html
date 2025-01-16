@@ -41,9 +41,8 @@
               
               <!-- My Cart -->
               <li class="nav-item">
-                <a class="nav-link" href="../cart">
+                <a class="nav-link" href="../../cart">
                   My Cart
-                  <span class="badge bg-danger" id="cart-count">0</span> <!-- Cart count -->
                 </a>
               </li>
               
@@ -78,89 +77,121 @@
         </div>
       </nav>
     
-      
       <div class="buy-container">
         <h2>Buy Product</h2>
     
-        <div class="product-details">
-            <p><strong>Product:</strong> 
-                {% if stock_item.supplement %}
-                    {{ stock_item.supplement.name }}
-                    <br>
-                    <img src="{{ stock_item.supplement.img.url }}" alt="{{ stock_item.supplement.name }}" class="product-img">
-                {% elif stock_item.equipment %}
-                    {{ stock_item.equipment.name }}
-                    <br>
-                    <img src="{{ stock_item.equipment.img.url }}" alt="{{ stock_item.equipment.name }}" class="product-img">
-                {% endif %}
-            </p>
-            <p><strong>Price per unit:</strong> ₹{{ stock_item.offer_price }}</p>
-            <p><strong>Quantity:</strong> {{ cart_item.qty }}</p>
-            <p><strong>Total Price:</strong> ₹{{ cart_item.total_price }}</p>
-        </div>
-    
-        <form method="POST" class="buy-form">
-            {% csrf_token %}
-            
-            <label for="address">Address:</label>
-            <textarea name="address" id="address" rows="4" required placeholder="Enter your delivery address"></textarea><br>
-    
-            <label for="phone_number">Phone Number:</label>
-            <input type="text" name="phone_number" id="phone_number" required placeholder="Enter your phone number"><br>
-    
-            <button type="submit" class="buy-button">Buy Now</button>
-        </form>
-    </div>
-
-
-    <footer class="footer mt-auto py-4">
-        <div class="container">
-            <div class="row">
-                <!-- About Us -->
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <h5>About Us</h5>
-                    <p>Gym Vault offers the best supplements, equipment, and accessories to help you achieve your fitness goals. Premium quality, every time.</p>
-                </div>
-    
-                <!-- Quick Links -->
-                <div class="col-lg-3 col-md-3 col-sm-6 ">
-                    <h5>Quick Links</h5>
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/category/supplements">Supplements</a></li>
-                        <li><a href="/category/equipment">Equipment</a></li>
-                        <li><a href="/contact">Contact Us</a></li>
-                    </ul>
-                </div>
-    
-                <!-- Social Media -->
-                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <h5>Follow Us</h5>
-                    <div class="social-icons">
-                        <a href="#"><img src="{% static 'img/i1.png' %}"></a>
-                        <a href="#"><img src="{% static 'img/i2.png' %}" alt="Instagram"></a>
-                        <a href="#"><img src="{% static 'img/it.png' %}" alt="Twitter"></a>
-                        <a href="#"><img src="{% static 'img/il.png' %}" alt="LinkedIn"></a>
+        <!-- Check if bulk purchase -->
+        {% if cart_items %}
+            <!-- Bulk Purchase Section -->
+            <div class="product-details">
+                <h3>Products in Your Cart</h3>
+                {% for item in cart_items %}
+                    <div class="cart-item">
+                        <p><strong>Product:</strong> 
+                            {% if item.stock.supplement %}
+                                {{ item.stock.supplement.name }}
+                                <br>
+                                <img src="{{ item.stock.supplement.img.url }}" alt="{{ item.stock.supplement.name }}" class="product-img">
+                            {% elif item.stock.equipment %}
+                                {{ item.stock.equipment.name }}
+                                <br>
+                                <img src="{{ item.stock.equipment.img.url }}" alt="{{ item.stock.equipment.name }}" class="product-img">
+                            {% endif %}
+                        </p>
+                        <p><strong>Weight:</strong> {{ item.stock.weight }}</p>
+                        <p><strong>Price per unit:</strong> ₹{{ item.stock.offer_price }}</p>
+                        <p><strong>Quantity:</strong> {{ item.qty }}</p>
                     </div>
-                </div>
+                    <hr>
+                {% endfor %}
+                <p><strong>Total Price:</strong> ₹{{ total_price }}</p>
+            </div>
     
-                <!-- Newsletter -->
-                <div class="news col-lg-3 col-md-3 col-sm-6">
-                    <h5>Newsletter</h5>
-                    <p>Sign up to stay updated on the latest deals and products.</p>
-                    <form action="/subscribe" method="POST">
-                        <input type="email" name="email" placeholder="Enter your email" required>
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
+            <!-- Bulk Purchase Form -->
+            <form method="POST" class="buy-form">
+                {% csrf_token %}
+                <label for="address">Address:</label>
+                <textarea name="address" id="address" rows="4" required placeholder="Enter your delivery address"></textarea><br>
+    
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" name="phone_number" id="phone_number" required placeholder="Enter your phone number"><br>
+    
+                <button type="submit" class="buy-button">Buy Now</button>
+            </form>
+        {% else %}
+            <!-- Single Product Purchase Section -->
+            <div class="product-details">
+              <p><strong>Product:</strong> 
+                  {% if stock_item.supplement %}
+                      {{ stock_item.supplement.name }}
+                      <br>
+                      <img src="{{ stock_item.supplement.img.url }}" alt="{{ stock_item.supplement.name }}" class="product-img">
+                  {% elif stock_item.equipment %}
+                      {{ stock_item.equipment.name }}
+                      <br>
+                      <img src="{{ stock_item.equipment.img.url }}" alt="{{ stock_item.equipment.name }}" class="product-img">
+                  {% endif %}
+              </p>
+              <p><strong>Weight:</strong> {{ stock_item.weight }}</p>
+              <p><strong>Price per unit:</strong> ₹{{ stock_item.offer_price }}</p>          
+          
+                <!-- Single Product Purchase Form -->
+                <form method="POST" class="buy-form">
+                    {% csrf_token %}
+                    <p><strong>Total Price:</strong> ₹{{ stock_item.offer_price }}</p>
+                    <br>
+                    <label for="address">Address:</label>
+                    <textarea name="address" id="address" rows="4" required placeholder="Enter your delivery address"></textarea><br>
+    
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" name="phone_number" id="phone_number" required placeholder="Enter your phone number"><br>
+    
+                    <button type="submit" class="buy-button">Buy Now</button>
+                </form>
             </div>
-            <div class="row mt-3">
-                <div class="col text-center">
-                    <p>&copy; 2024 Gym Vault. All Rights Reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+        {% endif %}
+    </div>
+    
+    
+    <footer class="footer mt-auto py-4">
+      <div class="container">
+          <div class="row footer-content justify-content-between">
+              <!-- About Us -->
+              <div class="col-lg-3 col-md-3 mb-4">
+                  <h5>About Us</h5>
+                  <p>Gym Vault offers the best supplements, equipment, and accessories to help you achieve your fitness goals. Premium quality, every time.</p>
+              </div>
+  
+              <!-- Quick Links -->
+              <div class="col-lg-3 col-md-3 mb-4">
+                  <h5>Quick Links</h5>
+                  <ul>
+                      <li><a href="/">Home</a></li>
+                      <li><a href="/category/supplements">Supplements</a></li>
+                      <li><a href="/category/equipment">Equipment</a></li>
+                      <li><a href="/contact">Contact Us</a></li>
+                  </ul>
+              </div>
+  
+              <!-- Social Media -->
+              <div class="col-lg-3 col-md-3 mb-4">
+                  <h5>Follow Us</h5>
+                  <div class="social-icons">
+                      <a href="#"><img src="{% static 'img/i1.png' %}"></a>
+                      <a href="#"><img src="{% static 'img/i2.png' %}" alt="Instagram"></a>
+                      <a href="#"><img src="{% static 'img/it.png' %}" alt="Twitter"></a>
+                      <a href="#"><img src="{% static 'img/il.png' %}" alt="LinkedIn"></a>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="row mt-3">
+              <div class="col text-center">
+                  <p>&copy; 2024 Gym Vault. All Rights Reserved.</p>
+              </div>
+          </div>
+      </div>
+  </footer>
 
 </body>
 </html>

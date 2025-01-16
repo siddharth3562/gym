@@ -181,7 +181,14 @@ def add_to_cart(request, product_id):
     stock = Stock.objects.filter(id=product_id).first()
 
     if stock is None:
-        return redirect(not_found)  # Redirect if the product doesn't exist
+        return redirect(user_home)  # Redirect if the product doesn't exist
+
+    # Handle selected weight (if applicable)
+    selected_weight_id = request.GET.get('weight')
+    if selected_weight_id:
+        stock = Stock.objects.filter(id=selected_weight_id).first()
+        if stock is None:
+            return redirect(user_home)  # Redirect if selected weight doesn't exist
 
     # Check if the user already has this item in the cart
     existing_cart_item = Cart.objects.filter(user=request.user, stock=stock).first()
@@ -196,7 +203,8 @@ def add_to_cart(request, product_id):
         total_price = stock.offer_price * 1  # Initial quantity is 1
         Cart.objects.create(user=request.user, stock=stock, qty=1, total_price=total_price)
 
-    return redirect(cart)  # Redirect to the cart view
+    return redirect(cart)
+# Redirect to the cart view
 
 
 def qty_in(req, cid):
@@ -246,54 +254,88 @@ def cart(request):
     
 
 
-def place_order(request, stock_id):
-    stock_item = get_object_or_404(Stock, id=stock_id)
-    
-    # Get the cart item for this user and stock
-    cart_item = Cart.objects.filter(user=request.user, stock=stock_item).first()
-    
-    if not cart_item:
-        messages.error(request, "Product is not in your cart.")
-        return redirect('cart')
+def place_order(request, stock_id=None):
+    if stock_id:
+        # Single product purchase from the product detail page
+        stock_item = get_object_or_404(Stock, id=stock_id)
+
+        # Handle selected weight
+        selected_weight_id = request.GET.get('weight')
+        if selected_weight_id:
+            stock_item = get_object_or_404(Stock, id=selected_weight_id)
+
+    else:
+        # Bulk purchase logic (from cart)
+        cart_items = Cart.objects.filter(user=request.user)
+        total_price = sum(item.qty * item.stock.offer_price for item in cart_items)
 
     if request.method == 'POST':
-        # Use quantity and total price from the cart
-        qty = cart_item.qty
-        total_price = cart_item.qty * stock_item.price
-
+        # Collect address and phone number
         address = request.POST.get('address')
         phone_number = request.POST.get('phone_number')
 
-        if qty > stock_item.stock:
-            messages.error(request, "Insufficient stock available.")
-            return redirect('cart')
+        if stock_id:  # Single product purchase logic
+            qty = 1  # Default quantity is always set to 1
 
-        # Create a new Buy record
-        Buy.objects.create(
-            product=stock_item,
-            user=request.user,
-            qty=qty,
-            price=total_price,
-            date=now(),
-            address=address,
-            phone_number=phone_number
-        )
+            # Check if there's enough stock
+            if qty > stock_item.stock:
+                messages.error(request, f"Insufficient stock for {stock_item.name}.")
+                return redirect('buy_product', stock_id=stock_item.id)
 
-        # Reduce stock
-        stock_item.stock -= qty
-        stock_item.save()
+            # Create Buy record for single product purchase
+            Buy.objects.create(
+                product=stock_item,
+                user=request.user,
+                qty=qty,
+                price=qty * stock_item.offer_price,  # Using offer price
+                date=now(),
+                address=address,
+                phone_number=phone_number,
+            )
+            stock_item.stock -= qty
+            stock_item.save()
 
-        # Remove the cart item after successful purchase
-        cart_item.delete()
+            messages.success(request, "Single product purchase successful!")
+            return redirect('order_history')
 
-        messages.success(request, "Purchase successful!")
-        return redirect(order_history)
+        else:  # Bulk purchase logic from cart
+            for cart_item in cart_items:
+                stock_item = cart_item.stock
+                qty = cart_item.qty
 
-    return render(request, 'user/buy_product.html', {'stock_item': stock_item, 'cart_item': cart_item})
+                if qty > stock_item.stock:
+                    messages.error(request, f"Insufficient stock for {stock_item.name}.")
+                    return redirect('cart')
+
+                # Create Buy records and reduce stock
+                Buy.objects.create(
+                    product=stock_item,
+                    user=request.user,
+                    qty=qty,
+                    price=cart_item.qty * stock_item.offer_price,  # Using offer price
+                    date=now(),
+                    address=address,
+                    phone_number=phone_number,
+                )
+                stock_item.stock -= qty
+                stock_item.save()
+
+            # Clear the cart after bulk purchase
+            cart_items.delete()
+
+            messages.success(request, "Bulk purchase successful!")
+            return redirect('order_history')
+
+    return render(request, 'user/buy_product.html', {
+        'stock_item': stock_item if stock_id else None,
+        'cart_items': cart_items if not stock_id else None,
+        'total_price': total_price if not stock_id else None,
+    })
+
+
 
 def order_history(request):
-    # Get all Buy records for the logged-in user
-    orders = Buy.objects.filter(user=request.user).order_by('-date')
+    orders = Buy.objects.filter(user=request.user).order_by('-id')  # Order by ID in reverse (descending)
 
     return render(request, 'user/history.html', {'orders': orders})
 
@@ -349,6 +391,10 @@ def search_view(request):
 
     return render(request, 'user/search_results.html', {'query': query, 'results': results})
 
+def admin_order_history(request):
+    # Fetch all orders from the Buy model
+    orders = Buy.objects.all().order_by('-date')
+    return render(request, 'shop/order_history.html', {'orders': orders})
 
 # admin---------------------------
 

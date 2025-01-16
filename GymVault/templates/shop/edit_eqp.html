@@ -5,7 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Equipment</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'shop/edit_equipment.css`' %}">
+    <link rel="stylesheet" href="{% static 'shop/edit_equipment.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        img {
+            display: block;
+            margin: 15px 0;
+            max-width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -52,14 +122,12 @@
             <!-- Existing Image Display -->
             {% if equipment.img %}
             <p>Current Image:</p>
-            <img src="{{ equipment.img.url }}" alt="Equipment Image" width="200">
+            <img src="{{ equipment.img.url }}" alt="Equipment Image">
             {% endif %}
 
             <!-- Submit Button -->
             <button type="submit">Save Changes</button>
         </form>
-
-        <!-- Back Button -->
     </div>
 </body>
 </html>

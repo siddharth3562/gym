@@ -123,17 +123,22 @@
 }
 
 
-
 .footer {
     margin-top: 10vh;
-    background-color: #1f1d1d; 
-    color: #ffffff; 
-    padding: 40px 10px;
+    background-color: #1f1d1d;
+    color: #ffffff;
     font-size: 14px;
 }
 
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0; /* Remove default row margin */
+    gap: 0; /* Remove gap */
+}
+
 .footer h5 {
-    color: #ff0000; /* Red for headings */
+    color: #ff0000;
     font-size: 18px;
     margin-bottom: 15px;
 }
@@ -146,6 +151,7 @@
 .footer ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .footer ul li {
@@ -164,41 +170,19 @@
 
 .footer .social-icons {
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    align-items: center;
 }
 
 .footer .social-icons a img {
     width: 24px;
     height: 24px;
-    filter: brightness(0) invert(1); /* Makes icons white */
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
 }
 
 .footer .social-icons a img:hover {
     filter: brightness(0) invert(1) sepia(1) saturate(1000%) hue-rotate(-10deg);
-}
-
-
-
-.footer input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 4px;
-}
-
-.footer button {
-    background-color: #ff0000;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-}
-
-.footer button:hover {
-    background-color: #cc0000;
 }
 
 .footer .text-center {
@@ -206,4 +190,11 @@
     padding-top: 15px;
     margin-top: 15px;
     font-size: 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer-content > div {
+        margin-bottom: 30px;
+    }
 }
