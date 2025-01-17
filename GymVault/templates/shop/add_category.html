@@ -5,11 +5,238 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Category</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'shop/add_category.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        body {
+            display: flex;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #1a1c23;
+            color: #fff;
+            position: fixed;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar h2 {
+            padding: 20px;
+            background: #FF0000;
+            text-align: center;
+            font-size: 24px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #2c303a;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar a:hover {
+            background: #2c303a;
+            border-left: 3px solid #FF0000;
+        }
+
+        .sidebar a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dashboard h1 {
+            font-size: 28px;
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container form {
+            width: 100%;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #343a40;
+            width: 100%;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: #FF0000;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar h2 {
+                font-size: 0;
+                padding: 20px 0;
+            }
+
+            .sidebar h2::first-letter {
+                font-size: 24px;
+            }
+
+            .sidebar a span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar.active h2 {
+                font-size: 24px;
+                padding: 20px;
+            }
+
+            .sidebar.active a span {
+                display: inline;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+
+            .dashboard h1 {
+                font-size: 24px;
+                margin-top: 40px;
+            }
+
+            .form-container {
+                margin: 20px auto;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard h1 {
+                font-size: 20px;
+            }
+
+            .form-container {
+                padding: 15px;
+                margin: 15px auto;
+            }
+
+            .form-container label {
+                font-size: 14px;
+            }
+
+            .form-container input {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .form-container button {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <div class="sidebar">
         <h2>Gym Vault</h2>
         <a href="shop_home" class="active"><i class="fas fa-home"></i><span>Home</span></a>
@@ -19,6 +246,9 @@
         <a href="add_s"><i class="fas fa-pills"></i><span>Supplements</span></a>
         <a href="view_pro"><i class="fas fa-eye"></i><span>View Supplements</span></a>
         <a href="view_eqp"><i class="fas fa-search"></i><span>View Equipment</span></a>
+        <a href="order_admin"><i class="fas fa-search"></i><span>Order History</span></a>
+        <a href="add_stock"><i class="fas fa-search"></i><span>update stock</span></a>
+
         <a href="logout"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
 
@@ -45,5 +275,11 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

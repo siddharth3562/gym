@@ -37,5 +37,5 @@ urlpatterns=[
     path('contact/',views.contact_view),
     path('search/',views.search_view),
     path('order_admin/',views.admin_order_history),
-
+    path('remove_cart/<cid>',views.delete_from_cart),
 ]

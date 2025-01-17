@@ -113,10 +113,7 @@
                     <!-- Buy Button -->
         
                     <!-- Remove Button -->
-                    <form action="" method="POST" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="remove-btn">Remove</button>
-                    </form>
+                        <a href="remove_cart/{{item.pk}}"><button type="submit" class="remove-btn">Remove</button></a>
                 </div>
                 {% endfor %}
             </div>

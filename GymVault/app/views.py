@@ -252,6 +252,22 @@ def cart(request):
     else: 
         return redirect(e_login)  
     
+def delete_from_cart(request, cid):
+
+    if 'user' in request.session:
+        username = request.session['user']
+        
+        cart_item = get_object_or_404(Cart, pk=cid, user__username=username)
+        
+        # Delete the item from the cart
+        cart_item.delete()
+        
+        # Redirect to the cart view
+        return redirect(cart)
+    else:
+        # Redirect to login if the user is not authenticated
+        return redirect(e_login)
+    
 
 
 def place_order(request, stock_id=None):
@@ -280,7 +296,7 @@ def place_order(request, stock_id=None):
             # Check if there's enough stock
             if qty > stock_item.stock:
                 messages.error(request, f"Insufficient stock for {stock_item.name}.")
-                return redirect('buy_product', stock_id=stock_item.id)
+                return redirect(buy_product, stock_id=stock_item.id)
 
             # Create Buy record for single product purchase
             Buy.objects.create(
@@ -295,8 +311,7 @@ def place_order(request, stock_id=None):
             stock_item.stock -= qty
             stock_item.save()
 
-            messages.success(request, "Single product purchase successful!")
-            return redirect('order_history')
+            return redirect(order_history)
 
         else:  # Bulk purchase logic from cart
             for cart_item in cart_items:
@@ -305,7 +320,7 @@ def place_order(request, stock_id=None):
 
                 if qty > stock_item.stock:
                     messages.error(request, f"Insufficient stock for {stock_item.name}.")
-                    return redirect('cart')
+                    return redirect(cart)
 
                 # Create Buy records and reduce stock
                 Buy.objects.create(
@@ -323,7 +338,6 @@ def place_order(request, stock_id=None):
             # Clear the cart after bulk purchase
             cart_items.delete()
 
-            messages.success(request, "Bulk purchase successful!")
             return redirect('order_history')
 
     return render(request, 'user/buy_product.html', {
@@ -468,7 +482,6 @@ def add_equipment(request):
         )
         equipment.save()
         
-        # Redirect to add_stock with the equipment ID
         return redirect(f'/add_stock?equipment_id={equipment.id}')
     
     brands = Brand.objects.all()
@@ -489,7 +502,7 @@ def add_supplement(request):
         brand = Brand.objects.get(id=request.POST['brand'])
         description = request.POST['description']
         category = Supplement_Category.objects.get(id=request.POST['category'])
-        flavor = request.POST.get('flavor')  # Optional field
+        flavor = request.POST.get('flavor')  
         img = request.FILES['img']
 
         # Create the supplement

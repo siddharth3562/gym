@@ -4,98 +4,312 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Management</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        h1 {
+
+        body {
+            display: flex;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #1a1c23;
+            color: #fff;
+            position: fixed;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar h2 {
+            padding: 20px;
+            background: #FF0000;
+            text-align: center;
+            font-size: 24px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #2c303a;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar a:hover {
+            background: #2c303a;
+            border-left: 3px solid #FF0000;
+        }
+
+        .sidebar a i {
+            margin-right: 10px;
+            width: 20px;
             text-align: center;
         }
-        form {
-            max-width: 500px;
-            margin: auto;
-            background-color: #f9f9f9;
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
             padding: 20px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            margin: 20px auto;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input, select {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        input, select {
+            padding: 12px;
+            font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            width: 100%;
         }
+
         button {
-            background-color: #4CAF50;
+            padding: 12px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: #FF0000;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 5px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #45a049;
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar h2 {
+                font-size: 0;
+                padding: 20px 0;
+            }
+
+            .sidebar h2::first-letter {
+                font-size: 24px;
+            }
+
+            .sidebar a span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar.active h2 {
+                font-size: 24px;
+                padding: 20px;
+            }
+
+            .sidebar.active a span {
+                display: inline;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+
+            .form-container {
+                margin: 60px auto 20px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 15px;
+                margin-top: 50px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            input, select {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            label {
+                font-size: 13px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            form {
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Add/Update Stock</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        
-        <!-- Supplement Dropdown -->
-        <label for="supplement">Supplement:</label>
-        <select id="supplement" name="supplement">
-            <option value="" selected>--- Select Supplement ---</option>
-            {% for supplement in supplements %}
-            <option value="{{ supplement.id }}" 
-                {% if selected_supplement and selected_supplement.id == supplement.id %}selected{% endif %}>
-                {{ supplement.name }}
-            </option>
-            {% endfor %}
-        </select>
-        
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
 
-        <!-- Equipment Dropdown -->
-        <label for="equipment">Equipment:</label>
-<select id="equipment" name="equipment">
-    <option value="">--- Select Equipment ---</option>
-    {% for equipment in equipments %}
-    <option value="{{ equipment.id }}" 
-        {% if selected_equipment and selected_equipment.id == equipment.id %}selected{% endif %}>
-        {{ equipment.name }}
-    </option>
-    {% endfor %}
-</select>
+    <div class="sidebar">
+        <h2>Gym Vault</h2>
+        <a href="shop_home" class="active"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="add_brand"><i class="fas fa-tag"></i><span>Add Brand</span></a>
+        <a href="s_category"><i class="fas fa-list"></i><span>Add Category</span></a>
+        <a href="add_e"><i class="fas fa-dumbbell"></i><span>Equipment</span></a>
+        <a href="add_s"><i class="fas fa-pills"></i><span>Supplements</span></a>
+        <a href="view_pro"><i class="fas fa-eye"></i><span>View Supplements</span></a>
+        <a href="view_eqp"><i class="fas fa-search"></i><span>View Equipment</span></a>
+        <a href="order_admin"><i class="fas fa-search"></i><span>Order History</span></a>
+        <a href="add_stock"><i class="fas fa-search"></i><span>update stock</span></a>
+        <a href="logout"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    </div>
 
-        <!-- Stock Quantity -->
-        <label for="stock">Stock Quantity:</label>
-        <input type="number" id="stock" name="stock" min="0" 
-            value="{{ stock.stock }}" required>
+    <div class="main-content">
+        <div class="form-container">
+            <h1>Add/Update Stock</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
 
-        <!-- Weight -->
-        <label for="weight">Weight (e.g., 1kg, 500g):</label>
-        <input type="text" id="weight" name="weight" 
-            value="{{ stock.weight }}">
+                <div>
+                    <label for="supplement">Supplement:</label>
+                    <select id="supplement" name="supplement">
+                        <option value="" selected>--- Select Supplement ---</option>
+                        {% for supplement in supplements %}
+                        <option value="{{ supplement.id }}" 
+                            {% if selected_supplement and selected_supplement.id == supplement.id %}selected{% endif %}>
+                            {{ supplement.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-        <!-- Price -->
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" step="0.01" 
-            value="{{ stock.price }}" required>
+                <div>
+                    <label for="equipment">Equipment:</label>
+                    <select id="equipment" name="equipment">
+                        <option value="">--- Select Equipment ---</option>
+                        {% for equipment in equipments %}
+                        <option value="{{ equipment.id }}" 
+                            {% if selected_equipment and selected_equipment.id == equipment.id %}selected{% endif %}>
+                            {{ equipment.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-        <!-- Offer Price -->
-        <label for="offer_price">Offer Price:</label>
-        <input type="number" id="offer_price" name="offer_price" step="0.01" 
-            value="{{ stock.offer_price }}">
+                <div>
+                    <label for="stock">Stock Quantity:</label>
+                    <input type="number" id="stock" name="stock" min="0" value="{{ stock.stock }}" required>
+                </div>
 
-        <button type="submit">Submit</button>
-    </form>
+                <div>
+                    <label for="weight">Weight (e.g., 1kg, 500g):</label>
+                    <input type="text" id="weight" name="weight" value="{{ stock.weight }}">
+                </div>
+
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" step="0.01" value="{{ stock.price }}" required>
+                </div>
+
+                <div>
+                    <label for="offer_price">Offer Price:</label>
+                    <input type="number" id="offer_price" name="offer_price" step="0.01" value="{{ stock.offer_price }}">
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
